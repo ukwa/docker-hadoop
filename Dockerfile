@@ -1,14 +1,12 @@
-FROM sequenceiq/hadoop-docker:2.7.0
+FROM teco/cdh3-hadoop-base
 
-# add custom hdfs-site.xml to disable safe-mode extension for faster startup
-ADD hdfs-site.xml $HADOOP_PREFIX/etc/hadoop/hdfs-site.xml
+COPY conf/* /etc/hadoop-0.20/conf.docker/
 
-# Modify the core-site template so HttpFS is configured to work:
-COPY core-site.xml.template $HADOOP_PREFIX/etc/hadoop/core-site.xml.template
+# Add two usernames to separate operations:
+RUN useradd access
+RUN useradd ingest
 
-# Ensure all services we want get started up.
-COPY bootstrap.sh /etc/bootstrap.sh
-
-# Add the HttpFS port:
-EXPOSE 14000
+# Set to default user:
+USER access
+WORKDIR /home/access
 

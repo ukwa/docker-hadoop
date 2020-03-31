@@ -1,22 +1,11 @@
-version: '2'
+version: "3.2"
 
 services:
 
-  # A single-node Hadoop and HDFS instance with HttpFS enabled
-  # Volumes are used to give the system some headroom.
-  hadoop:
+  client:
     build: .
-    command: "/etc/bootstrap.sh -d"
-    ports:
-      - "50070:50070"
-      - "50075:50075"
-      - "8088:8088"
-      - "8042:8042"
-      - "9000:9000"
-      - "50010:50010"
-      - "14000:14000"
-    hostname: hadoop
-    volumes:
-      - "./testing/hadoop-root-nm-local-dir:/tmp/hadoop-root/nm-local-dir"
-      - "./testing/hadoop-userlogs:/usr/local/hadoop/logs/userlogs" 
+    command: "hadoop fs -ls"
+    extra_hosts:
+     - "namenode:192.168.1.103"
+     - "jobtracker:192.168.1.104"
 
