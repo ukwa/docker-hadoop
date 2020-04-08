@@ -6,7 +6,7 @@
 <configuration>
 <property>
   <name>hadoop.tmp.dir</name>
-  <value>/lvdata/hadoop/tmp</value>
+  <value>/var/lib/hadoop-0.20/cache/${user.name}</value>
   <description>A base for other temporary directories.</description>
 </property>
 

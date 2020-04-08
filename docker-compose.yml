@@ -4,6 +4,7 @@ services:
 
   client:
     build: .
+    image: ukwa/docker-hadoop:hadoop-0.20
     command: "hadoop fs -ls"
     extra_hosts:
      - "namenode:192.168.1.103"
