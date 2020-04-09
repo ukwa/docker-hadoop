@@ -33,7 +33,7 @@
 
 <property>
         <name>mapred.task.timeout</name>
-        <value>450000</value>
+        <value>1200000</value>
 </property>
 
 <property>
