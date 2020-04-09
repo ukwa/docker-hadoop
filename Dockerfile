@@ -27,6 +27,9 @@ ADD conf /etc/hadoop-0.20/conf.docker
 RUN update-alternatives --install /etc/hadoop-0.20/conf hadoop-0.20-conf /etc/hadoop-0.20/conf.docker 50; \
 update-alternatives --set hadoop-0.20-conf /etc/hadoop-0.20/conf.docker
 
+# Set up our tmp:
+RUN mkdir -p /lvdata/hadoop/tmp && chmod a+rwx /lvdata/hadoop/tmp
+
 # Add two usernames to separate operations:
 RUN useradd access
 RUN useradd ingest
