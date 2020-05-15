@@ -40,7 +40,9 @@ RUN mkdir -p /lvdata/hadoop/tmp && chmod a+rwx /lvdata/hadoop/tmp
 
 # Add two usernames to separate operations:
 RUN useradd access
+RUN mkdir /home/access && chown access:access /home/access
 RUN useradd ingest
+RUN mkdir /home/ingest && chown ingest:ingest /home/ingest
 
 # Set to default user:
 USER access
