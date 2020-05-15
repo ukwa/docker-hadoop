@@ -6,7 +6,14 @@ FROM debian:9
 
 MAINTAINER andrew.jackson@bl.uk
 
-RUN apt-get update && apt-get install -q -y apt-utils openjdk-8-jdk ant vim unzip curl wget sudo gnupg lbzip2
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        apt-utils openjdk-8-jdk ant vim unzip curl wget sudo gnupg lbzip2 python3 python3-pip\
+        && rm -rf /var/lib/apt/lists/*
+
+# Setup python and pip pointing to Python 3.5:
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.5 1
+RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
