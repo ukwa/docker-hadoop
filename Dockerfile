@@ -15,28 +15,41 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
 
+# Install Hadoop binaries:
+ARG HADOOP_VERSION=3.3.1
+RUN curl -s https://downloads.apache.org/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz | tar -xz -C /usr/local/
+RUN cd /usr/local && ln -s ./hadoop-${HADOOP_VERSION} hadoop
+
+ENV HADOOP_HOME /usr/local/hadoop
+ENV HADOOP_COMMON_HOME /usr/local/hadoop
+ENV HADOOP_HDFS_HOME /usr/local/hadoop
+ENV HADOOP_MAPRED_HOME /usr/local/hadoop
+ENV HADOOP_YARN_HOME /usr/local/hadoop
+ENV HADOOP_CONF_DIR /usr/local/hadoop/etc/hadoop
+ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
+
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
+
+RUN sed -i '/^export JAVA_HOME/ s:.*:export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64\nexport HADOOP_HOME=/usr/local/hadoop\nexport HADOOP_HOME=/usr/local/hadoop\n:' $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+RUN sed -i '/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/:' $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+
 ENV DEBIAN_FRONTEND="noninteractive"
 
-RUN wget http://archive.cloudera.com/one-click-install/squeeze/cdh3-repository_1.0_all.deb; \
-mkdir /root/.gnupg; \
-dpkg --no-debsig -i cdh3-repository_1.0_all.deb; \
-apt-get update -qq --allow-insecure-repositories; \
-apt-get --allow-unauthenticated install -q -y hadoop-0.20-conf-pseudo; \
-echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/' >> /etc/default/hadoop-0.20; \
-chmod a+w /usr/bin/hadoop-0.20; \
-echo '#!/bin/sh\n. /etc/default/hadoop-0.20\nexec /usr/lib/hadoop-0.20/bin/hadoop "$@"' > /usr/bin/hadoop-0.20; \
-chmod a+x /usr/bin/hadoop-0.20;
+#RUN wget http://archive.cloudera.com/one-click-install/squeeze/cdh3-repository_1.0_all.deb; \
+#mkdir /root/.gnupg; \
+#dpkg --no-debsig -i cdh3-repository_1.0_all.deb; \
+#apt-get update -qq --allow-insecure-repositories; \
+#apt-get --allow-unauthenticated install -q -y hadoop-0.20-conf-pseudo; \
+#echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/' >> /etc/default/hadoop-0.20; \
+#chmod a+w /usr/bin/hadoop-0.20; \
+#echo '#!/bin/sh\n. /etc/default/hadoop-0.20\nexec /usr/lib/hadoop-0.20/bin/hadoop "$@"' > /usr/bin/hadoop-0.20; \
+#chmod a+x /usr/bin/hadoop-0.20;
 
 #
 # Add in our conf:
 #
 
-ADD conf /etc/hadoop-0.20/conf.docker
-RUN update-alternatives --install /etc/hadoop-0.20/conf hadoop-0.20-conf /etc/hadoop-0.20/conf.docker 50; \
-update-alternatives --set hadoop-0.20-conf /etc/hadoop-0.20/conf.docker
-
-# Set up our tmp:
-RUN mkdir -p /lvdata/hadoop/tmp && chmod a+rwx /lvdata/hadoop/tmp
+ADD conf /usr/local/hadoop/etc/hadoop
 
 # Add two usernames to separate operations:
 RUN useradd access

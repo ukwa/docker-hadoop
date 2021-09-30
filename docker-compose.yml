@@ -3,10 +3,13 @@ version: "3.2"
 services:
 
   client:
-    build: .
-    image: ukwa/docker-hadoop:hadoop-0.20
+    build:
+      context: .
+      args:
+        http_proxy: ${HTTP_PROXY}
+        https_proxy: ${HTTPS_PROXY}
     command: "hadoop fs -ls"
     extra_hosts:
-     - "namenode:192.168.1.103"
-     - "jobtracker:192.168.1.104"
+     - "namenode:192.168.45.181"
+     - "resourcemanager:192.168.45.182"
 
