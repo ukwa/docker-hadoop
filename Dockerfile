@@ -21,12 +21,7 @@ RUN curl -s https://downloads.apache.org/hadoop/common/hadoop-${HADOOP_VERSION}/
 RUN cd /usr/local && ln -s ./hadoop-${HADOOP_VERSION} hadoop
 
 ENV HADOOP_HOME /usr/local/hadoop
-ENV HADOOP_COMMON_HOME /usr/local/hadoop
-ENV HADOOP_HDFS_HOME /usr/local/hadoop
-ENV HADOOP_MAPRED_HOME /usr/local/hadoop
-ENV HADOOP_YARN_HOME /usr/local/hadoop
 ENV HADOOP_CONF_DIR /usr/local/hadoop/etc/hadoop
-ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
 
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 
@@ -35,15 +30,8 @@ RUN sed -i '/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/had
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
-#RUN wget http://archive.cloudera.com/one-click-install/squeeze/cdh3-repository_1.0_all.deb; \
-#mkdir /root/.gnupg; \
-#dpkg --no-debsig -i cdh3-repository_1.0_all.deb; \
-#apt-get update -qq --allow-insecure-repositories; \
-#apt-get --allow-unauthenticated install -q -y hadoop-0.20-conf-pseudo; \
-#echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/' >> /etc/default/hadoop-0.20; \
-#chmod a+w /usr/bin/hadoop-0.20; \
-#echo '#!/bin/sh\n. /etc/default/hadoop-0.20\nexec /usr/lib/hadoop-0.20/bin/hadoop "$@"' > /usr/bin/hadoop-0.20; \
-#chmod a+x /usr/bin/hadoop-0.20;
+# Also install old Hadoop so we can run that when needed:
+RUN curl -s https://archive.cloudera.com/cdh/3/hadoop-0.20.2-cdh3u6.tar.gz | tar -xz -C /usr/local/
 
 #
 # Add in our conf:
