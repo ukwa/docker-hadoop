@@ -37,7 +37,8 @@ RUN curl -s https://archive.cloudera.com/cdh/3/hadoop-0.20.2-cdh3u6.tar.gz | tar
 # Add in our conf:
 #
 
-ADD conf /usr/local/hadoop/etc/hadoop
+ADD conf/hadoop-3/conf /usr/local/hadoop/etc/hadoop
+ADD conf/hadoop-0.20/conf /usr/local/hadoop-0.20.2-cdh3u6/etc/hadoop
 
 # Add two usernames to separate operations:
 RUN useradd access

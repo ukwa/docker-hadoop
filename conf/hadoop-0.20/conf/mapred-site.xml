@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+<property>
+  <name>mapred.job.tracker</name>
+  <value>jobtracker:54311</value>
+</property>
+<property>
+  <name>jobtracker.thrift.address</name>
+  <value>0.0.0.0:9290</value>
+</property>
+<property>
+  <name>mapred.jobtracker.plugins</name>
+  <value>org.apache.hadoop.thriftfs.ThriftJobTrackerPlugin</value>
+  <description>Comma-separated list of jobtracker plug-ins to be activated.</description>
+</property>
+  
+<property>
+  <name>mapred.system.dir</name>
+  <value>/mapred/system</value>
+  <description>The shared directory where MapReduce stores control files.
+  </description>
+</property> 
+<property>
+  <name>mapred.local.dir</name>
+  <value>/mapred/local/dir</value>
+  <description>The shared directory where MapReduce stores control files.
+  </description>
+</property>
+
+<property>
+        <name>mapred.task.timeout</name>
+        <value>1200000</value>
+</property>
+
+<property>
+        <name>mapred.tasktracker.map.tasks.maximum</name>
+        <value>1</value> <!-- map.tasks.maximum -->
+</property>
+<property>
+        <name>mapred.tasktracker.reduce.tasks.maximum</name>
+        <value>1</value> <!-- reduce.tasks.maximum -->
+</property>
+
+<property>
+        <name>mapred.map.tasks</name>
+        <value>100</value>
+</property>
+<property>
+        <name>mapred.reduce.tasks</name>
+        <value>40</value>
+</property>
+
+<property>
+  <name>mapred.child.java.opts</name>
+  <value>-Xmx3g</value>
+</property>
+
+<property>
+  <name>mapred.job.tracker.http.address</name>
+  <value>0.0.0.0:50030</value>
+  <description>
+    The job tracker http server address and port the server will listen on.
+    If the port is 0 then the server will start on a free port.
+  </description>
+</property>
+
+<property>
+  <name>mapred.task.tracker.http.address</name>
+  <value>0.0.0.0:50060</value>
+  <description>
+    The task tracker http server address and port.
+    If the port is 0 then the server will start on a free port.
+  </description>
+</property>
+
+<property>
+  <name>mapred.user.jobconf.limit</name>
+  <value>524288000</value>
+</property>
+
+<property>
+  <name>mapreduce.jobtracker.split.metainfo.maxsize</name>
+  <value>-1</value>
+</property>
+
+<property>
+  <name>mapred.jobtracker.taskScheduler</name>
+  <value>org.apache.hadoop.mapred.FairScheduler</value>
+</property>
+<property>
+  <name>mapred.fairscheduler.allocation.file</name>
+  <value>/etc/hadoop/conf/fair-scheduler.xml</value>
+</property>
+
+</configuration>
