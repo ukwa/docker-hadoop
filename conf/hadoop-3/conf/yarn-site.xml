@@ -1,6 +1,6 @@
 <configuration>
     <property>
         <name>yarn.resourcemanager.hostname</name>
-        <value>resourcemanager</value>
+        <value>h3rm</value>
     </property>
 </configuration>

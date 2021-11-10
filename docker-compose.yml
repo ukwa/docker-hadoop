@@ -10,6 +10,8 @@ services:
         https_proxy: ${HTTPS_PROXY}
     command: "/usr/local/hadoop/bin/hadoop fs -ls /"
     extra_hosts:
-     - "namenode:192.168.45.181"
-     - "resourcemanager:192.168.45.182"
+     - "h020nn:192.168.1.103"
+     - "h020jt:192.168.1.104"
+     - "h3nn:192.168.45.181"
+     - "h3rm:192.168.45.182"
 

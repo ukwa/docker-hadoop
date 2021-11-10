@@ -12,7 +12,7 @@
 
 <property>
   <name>fs.default.name</name>
-  <value>hdfs://namenode:54310</value>
+  <value>hdfs://h3nn:54310</value>
 </property>
 <property>
   <name>topology.script.file.name</name>
