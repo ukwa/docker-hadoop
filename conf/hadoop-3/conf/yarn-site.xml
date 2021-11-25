@@ -1,6 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+       Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Originally there was no configuration values here. All below defined by WA. -->
+<!-- See http://hadoop.apache.org/docs/r3.3.1/hadoop-project-dist/hadoop-common/ClusterSetup.html -->
+
 <configuration>
-    <property>
-        <name>yarn.resourcemanager.hostname</name>
-        <value>h3rm</value>
-    </property>
+	<!-- Configurations for ResourceManager and NodeManager -->
+	<property>
+		<name>yarn.acl.enable</name>
+		<value>false</value>
+		<description>Enable Access Control Lists?</description>
+	</property>
+	<property>
+		<name>yarn.admin.acl</name>
+		<value>*</value>
+		<description>ACL to set admins on cluster. Special value of * means anyone.</description>
+	</property>
+	<property>
+		<name>yarn.log-aggregation-enable</name>
+		<value>true</value>
+		<description>Configuration to enable or disable log aggregation</description>
+	</property>
+
+	<!-- Configurations for ResourceManager -->
+	<property>
+		<name>yarn.resourcemanager.hostname</name>
+		<value>h3rm.wa.bl.uk</value>
+		<description>resourcemanager host:port for clients to submit jobs to.</description>
+	</property>
+	<property>
+		<name>yarn.resourcemanager.scheduler.class</name>
+		<value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
+		<description>Hadoop3 Fair scheduler seems more targetted towards our situation. The Capacity scheduler is more for multi-tenant clusters..</description>
+	</property>
+
+	<!-- settings for ResourceManager work-preserving RM restart
+		https://hadoop.apache.org/docs/r3.2.2/hadoop-yarn/hadoop-yarn-site/ResourceManagerRestart.html -->
+	<property>
+		<name>yarn.resourcemanager.recovery.enabled</name>
+		<value>true</value>
+		<description>Enable RM to recover state after starting. If true, then yarn.resourcemanager.store.class must be specified</description>
+	</property>
+	<property>
+		<name>yarn.resourcemanager.store.class</name>
+		<value>org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore</value>
+		<description>The class to use as the persistent store.</description>
+	</property>
+	<property>
+		<name>hadoop.zk.address</name>
+		<value>h3zk1:2181,h3zk2:2181,h3zk3:2181</value>
+		<description>Comma separated list of Host:Port pairs. Each corresponds to a ZooKeeper server (e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002") to be used by the RM for storing RM state.
+		This must be supplied when using org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore as the value for yarn.resourcemanager.store.class</description>
+	</property>
+	<property>
+		<name>yarn.resourcemanager.zk-state-store.parent-path</name>
+		<value>/rmstore</value>
+		<description>The full path of the root znode where RM state will be stored. Default value is /rmstore.</description>
+	</property>
+	<property>
+		<name>hadoop.zk.num-retries</name>
+		<value>500</value>
+		<description>Number of times RM tries to connect to ZooKeeper server if the connection is lost. Default value is 500.</description>
+	</property>
+	<property>
+		<name>hadoop.zk.retry-interval-ms</name>
+		<value>2000</value>
+		<description>The interval in milliseconds between retries when connecting to a ZooKeeper server. Default value is 2 seconds.</description>
+	</property>
+	<property>
+		<name>hadoop.zk.timeout-ms</name>
+		<value>10000</value>
+		<description>ZooKeeper session timeout in milliseconds. This configuration is used by the ZooKeeper server to determine when the session expires. Session expiration happens when the server does not hear from the client (i.e. no heartbeat) within the session timeout period specified by this configuration. Default value is 10 seconds</description>
+	</property>
+	<property>
+		<name>hadoop.zk.acl</name>
+		<value>world:anyone:rwcda</value>
+		<description>ACLs to be used for setting permissions on ZooKeeper znodes. Default value is world:anyone:rwcda</description>
+	</property>
+
+	<!-- Configurations for NodeManager -->
+	<property>
+		<name>yarn.nodemanager.resource.memory-mb</name>
+		<value>(£££ ukwa yarn.nodemanager.resource.memory-mb £££)</value>
+		<description>Defines total available resources on the nodemanager to be made available to running containers. See https://wiki.bl.uk:8443/display/WAG/Hadoop+3+Service+Testing for explanation of how this value was determined.</description>
+	</property>
+	<property>
+		<name>yarn.nodemanager.vmem-pmem-ratio</name>
+		<value>1.0</value>
+		<description>The virtual memory usage of each task may exceed its physical memory limit by this ratio.</description>
+	</property>
+	<property>
+		<name>yarn.nodemanager.local-dirs</name>
+		<value>/tmp</value>
+		<description>Comma-separated list of paths on local filesystem where intermediate data is written.</description>
+	</property>
+	<property>
+		<name>yarn.nodemanager.log-dirs</name>
+		<value>(£££ ukwa yarn.nodemanager.log-dirs £££)</value>
+		<description>Comma-separated list of paths on local filesystem where logs are written.</description>
+	</property>
+	<property>
+		<name>yarn.nodemanager.log.retain-seconds</name>
+		<value>10800</value>
+		<description>Default time (in seconds) to retain log files on the NodeManager Only applicable if log-aggregation is disabled.</description>
+	</property>
+	<property>
+		<name>yarn.nodemanager.remote-app-log-dir</name>
+		<value>/logs</value>
+		<description>HDFS directory where application logs are moved on completion. Need to set appropriate permissions. Only applicable if log-aggregation is enabled.</description>
+	</property>
+	<property>
+		<name>yarn.nodemanager.remote-app-log-dir-suffix</name>
+		<value>logs</value>
+		<description>Suffix appended to remote log dir. Only applicabe if log-aggregation is enabled.</description>
+	</property>
+	<property>
+		<name>yarn.nodemanager.aux-services</name>
+		<value>mapreduce_shuffle</value>
+		<description>Shuffle service that needs to be set for Map Reduce applications.</description>
+	</property>
+	<property>
+		<name>yarn.nodemanager.env-whitelist</name>
+		<value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME,HADOOP_TMP_DIR</value>
+		<description>Environment properties to be inherited by containers from NodeManagers.</description>
+	</property>
+	<property>
+		<name>yarn.nodemanager.resource.cpu-vcores</name>
+		<value>(£££ ukwa yarn.nodemanager.resource.cpu-vcores £££)</value>
+		<description>See https://wiki.bl.uk:8443/display/WAG/Hadoop+3+Service+Testing for explanation of how this value was determined.</description>
+	</property>
+
+	<!-- history server -->
+	<property>
+		<name>yarn.log-aggregation.retain-seconds</name>
+		<value>86400</value>
+		<description>How long to keep aggregation logs before deleting them.</description>
+	</property>
+	<property>
+		<name>yarn.log-aggregation.retain-check-interval-seconds</name>
+		<value>8640</value>
+		<description>Time between checks for aggregated log retention.</description>
+	</property>
 </configuration>

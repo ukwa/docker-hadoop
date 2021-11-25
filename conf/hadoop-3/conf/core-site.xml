@@ -1,50 +1,68 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+       Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
 
-<!-- Put site-specific property overrides in this file. -->
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Originally there was no configuration values here. All below defined by WA. -->
+<!-- See http://hadoop.apache.org/docs/r3.2.2/hadoop-project-dist/hadoop-common/ClusterSetup.html -->
 
 <configuration>
-<property>
-  <name>hadoop.tmp.dir</name>
-  <value>/lvdata/hadoop/tmp</value>
-  <description>A base for other temporary directories.</description>
-</property>
+	<!-- core -->
+	<property>
+		<name>fs.defaultFS</name>
+		<value>hdfs://h3nn.wa.bl.uk:54310</value>
+		<description>Namenode URI.</description>
+	</property>
+	<property>
+		<name>hadoop.tmp.dir</name>
+		<value>/opt/hadoop3/tmp</value>
+		<description>Apache Hadoop uses directory in hadoop_home for temp, so repeating here.</description>
+	</property>
+	<property>
+		<name>io.file.buffer.size</name>
+		<value>131072</value>
+		<description>Size of read/write buffer used in SequenceFiles. 131,072 is 128KB as recommended, which is a multiple of the 4KB hardware page size of Intel x86 systems.</description>
+	</property>
 
-<property>
-  <name>fs.default.name</name>
-  <value>hdfs://h3nn:54310</value>
-</property>
-<property>
-  <name>topology.script.file.name</name>
-  <value>/etc/hadoop/conf/ip2rack.sh</value>
-</property>
-<property>
-  <name>topology.script.number.args</name>
-  <value>1</value>
-</property>
-<property>
-    <name>hadoop.proxyuser.tomcat.hosts</name>
-    <value>*</value>
-</property>
-<property>
-    <name>hadoop.proxyuser.tomcat.groups</name>
-    <value>*</value>
-</property>
-<property>
-    <name>hadoop.proxyuser.access.hosts</name>
-    <value>*</value>
-</property>
-<property>
-    <name>hadoop.proxyuser.access.users</name>
-    <value>access</value>
-</property>
-<property>
-    <name>hadoop.proxyuser.ingest.hosts</name>
-    <value>*</value>
-</property>
-<property>
-    <name>hadoop.proxyuser.ingest.users</name>
-    <value>ingest</value>
-</property>
+	<!-- hadoop security/authentication -->
+	<property>
+		<name>hadoop.security.authentication</name>
+		<value>simple</value>
+		<description>Either simple or kerberos. With simple, the identity of a client process is determined by the host operating system. On Unix-like systems, the user name is the equivalent of `whoami`.</description>
+	</property>
 
+	<!-- rack awareness -->
+	<property>
+		<name>net.topology.script.file.name</name>
+		<value>/etc/hadoop3/h3ip2rack.py</value>
+		<description>https://hadoop.apache.org/docs/r3.2.2/hadoop-project-dist/hadoop-common/RackAwareness.html</description>
+	</property>
+	<property>
+		<name>net.topology.script.number.args</name>
+		<value>100</value>
+		<description>Rack awareness script value. Default value 100</description>
+	</property>
+
+	<!-- specific to httpfs https://hadoop.apache.org/docs/stable/hadoop-hdfs-httpfs/ServerSetup.html  -->
+	<property>
+		<name>hadoop.proxyuser.httpfsadmin.hosts</name>
+		<value>h3httpfs1,h3httpfs2,h3httpfs3</value>
+		<description>The user, httpfsadmin here, must be the account that starts the httpfs service. The value/s are comma separated hosts allowed to use httpfs.</description>
+	</property>
+	<property>
+		<name>hadoop.proxyuser.httpfsadmin.groups</name>
+		<value>hadoop3</value>
+		<description>Comma separated groups to which users impersonated by superuser belong. * means wildcard.</description>
+	</property>
 </configuration>
