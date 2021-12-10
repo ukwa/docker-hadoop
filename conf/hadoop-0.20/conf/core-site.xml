@@ -12,7 +12,7 @@
 
 <property>
   <name>fs.default.name</name>
-  <value>hdfs://h020nn:54310</value>
+  <value>hdfs://192.168.1.103:54310</value>
 </property>
 <property>
   <name>topology.script.file.name</name>

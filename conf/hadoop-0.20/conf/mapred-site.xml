@@ -6,7 +6,7 @@
 <configuration>
 <property>
   <name>mapred.job.tracker</name>
-  <value>h020jt:54311</value>
+  <value>192.168.1.104:54311</value>
 </property>
 <property>
   <name>jobtracker.thrift.address</name>
