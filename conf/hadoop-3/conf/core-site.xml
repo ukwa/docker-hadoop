@@ -26,7 +26,7 @@
 	</property>
 	<property>
 		<name>hadoop.tmp.dir</name>
-		<value>/opt/hadoop3/tmp</value>
+		<value>/tmp</value>
 		<description>Apache Hadoop uses directory in hadoop_home for temp, so repeating here.</description>
 	</property>
 	<property>
