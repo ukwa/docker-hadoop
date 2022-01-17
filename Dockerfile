@@ -50,6 +50,8 @@ RUN useradd access
 RUN mkdir /home/access && chown access:access /home/access
 RUN useradd ingest
 RUN mkdir /home/ingest && chown ingest:ingest /home/ingest
+RUN useradd httpfsadmin
+RUN mkdir /home/httpfsadmin && chown httpfsadmin:httpfsadmin /home/httpfsadmin
 
 # Set to default user:
 USER access

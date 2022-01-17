@@ -57,29 +57,13 @@
 	<!-- specific to httpfs https://hadoop.apache.org/docs/stable/hadoop-hdfs-httpfs/ServerSetup.html  -->
 	<property>
 		<name>hadoop.proxyuser.httpfsadmin.hosts</name>
-		<value>h3httpfs1,h3httpfs2,h3httpfs3</value>
+		<!-- value>h3httpfs1,h3httpfs2,h3httpfs3</value -->
+		<value>*</value>
 		<description>The user, httpfsadmin here, must be the account that starts the httpfs service. The value/s are comma separated hosts allowed to use httpfs.</description>
 	</property>
 	<property>
 		<name>hadoop.proxyuser.httpfsadmin.groups</name>
 		<value>hadoop3</value>
 		<description>Comma separated groups to which users impersonated by superuser belong. * means wildcard.</description>
-	</property>
-	<!-- Additional users for running HTTPFS from Docker containers -->
-	<property>
-		<name>hadoop.proxyuser.access.hosts</name>
-		<value>*</value>
-	</property>
-	<property>
-		<name>hadoop.proxyuser.access.groups</name>
-		<value>access</value>
-	</property>
-	<property>
-		<name>hadoop.proxyuser.ingest.hosts</name>
-		<value>*</value>
-	</property>
-	<property>
-		<name>hadoop.proxyuser.ingest.groups</name>
-		<value>ingest,access</value>
 	</property>
 </configuration>
