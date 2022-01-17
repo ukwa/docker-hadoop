@@ -65,4 +65,21 @@
 		<value>hadoop3</value>
 		<description>Comma separated groups to which users impersonated by superuser belong. * means wildcard.</description>
 	</property>
+	<!-- Additional users for running HTTPFS from Docker containers -->
+	<property>
+		<name>hadoop.proxyuser.access.hosts</name>
+		<value>*</value>
+	</property>
+	<property>
+		<name>hadoop.proxyuser.access.groups</name>
+		<value>access</value>
+	</property>
+	<property>
+		<name>hadoop.proxyuser.ingest.hosts</name>
+		<value>*</value>
+	</property>
+	<property>
+		<name>hadoop.proxyuser.ingest.groups</name>
+		<value>ingest,access</value>
+	</property>
 </configuration>
