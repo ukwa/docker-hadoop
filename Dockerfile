@@ -2,12 +2,12 @@
 # Base on https://github.com/teco-kit/docker-cdh3-hadoop/blob/master/cdh3-base/Dockerfile
 #
 
-FROM debian:10
+FROM --platform=linux/amd64 debian:10
 
 MAINTAINER andrew.jackson@bl.uk
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        apt-utils openjdk-11-jdk ant vim unzip curl wget sudo gnupg lbzip2 python3 python3-pip\
+        apt-utils openjdk-11-jdk ant vim unzip curl wget sudo gnupg lbzip2 python3 python3-pip ssh openssh-server\
         && rm -rf /var/lib/apt/lists/*
 
 # Setup python and pip pointing to Python 3.5:
@@ -37,9 +37,14 @@ RUN curl -s https://archive.cloudera.com/cdh/3/hadoop-0.20.2-cdh3u6.tar.gz | tar
 # Add in our conf:
 #
 
-ADD conf/hadoop-3/conf /usr/local/hadoop/etc/hadoop
-ADD conf/hadoop-0.20/conf /usr/local/hadoop-0.20.2-cdh3u6/etc/hadoop
+ADD conf/hadoop-3/conf /usr/local/hadoop/etc/hadoop-ukwa-client
 ADD entrypoint-h3.sh /
+
+ADD conf/hadoop-3-standalone/conf /usr/local/hadoop/etc/hadoop-standalone
+ADD entrypoint-h3-standalone.sh /
+ADD bootstrap.sh /
+
+ADD conf/hadoop-0.20/conf /usr/local/hadoop-0.20.2-cdh3u6/etc/hadoop
 ADD entrypoint-h020.sh /
 
 # Set H3 as default

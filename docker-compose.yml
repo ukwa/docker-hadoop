@@ -9,4 +9,10 @@ services:
         http_proxy: ${HTTP_PROXY}
         https_proxy: ${HTTPS_PROXY}
     command: "hadoop fs -ls /"
+    entrypoint: "/entrypoint-h3-standalone.sh"
+    user: root
+    environment:
+      - "HDFS_NAMENODE_USER=root"
+      - "HDFS_DATANODE_USER=root"
+      - "HDFS_SECONDARYNAMENODE_USER=root"
 
